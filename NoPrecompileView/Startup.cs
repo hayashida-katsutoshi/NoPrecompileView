@@ -32,7 +32,9 @@ namespace NoPrecompileView
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddMvc()
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
+                .AddRazorOptions(options => options.AllowRecompilingViewsOnFileChange = true);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +57,9 @@ namespace NoPrecompileView
 
             app.UseMvc(routes =>
             {
+                routes.MapRoute(
+                    name: "areaDefault",
+                    template: "{area:exists}/{controller=Home}/{action=Main}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
